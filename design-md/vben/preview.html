@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Vben Admin — Design System Preview (Light)</title>
+  <style>
+    /* ==================== DESIGN TOKENS ==================== */
+    :root {
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      --font-size-base: 16px;
+
+      --background: 0 0% 100%;
+      --background-deep: 216 20.11% 95.47%;
+      --foreground: 210 6% 21%;
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 84% 4.9%;
+      --muted: 240 4.8% 95.9%;
+      --muted-foreground: 240 3.8% 46.1%;
+
+      --primary: 212 100% 45%;
+      --primary-foreground: 0 0% 98%;
+      --destructive: 359.33 100% 65.1%;
+      --destructive-foreground: 0 0% 98%;
+      --success: 144 57% 58%;
+      --success-foreground: 0 0% 98%;
+      --warning: 42 84% 61%;
+      --warning-foreground: 0 0% 98%;
+
+      --secondary: 240 5% 96%;
+      --secondary-foreground: 240 6% 10%;
+      --accent: 240 5% 96%;
+      --accent-foreground: 240 6% 10%;
+      --accent-hover: 200deg 10% 90%;
+      --accent-dark: 216 14% 93%;
+      --accent-darker: 216 11% 91%;
+      --accent-lighter: 240 0% 98%;
+      --heavy: 192deg 9.43% 89.61%;
+      --heavy-foreground: var(--accent-foreground);
+
+      --border: 240 5.9% 90%;
+      --input: 240 5.88% 90%;
+      --input-placeholder: 217 10.6% 65%;
+      --input-background: 0 0% 100%;
+      --ring: 222.2 84% 4.9%;
+      --radius: 0.5rem;
+      --overlay: 0 0% 0% / 45%;
+
+      --sidebar: 0 0% 100%;
+      --sidebar-deep: 0 0% 100%;
+      --menu: var(--sidebar);
+      --header: 0 0% 100%;
+
+      --overlay: 0 0% 0% / 45%;
+      --overlay-content: 0 0% 95% / 45%;
+
+      --info: 240 5% 96%;
+      --info-foreground: 220 4% 58%;
+
+      /* Theme presets */
+      --violet: 245 82% 67%;
+      --pink: 347 77% 60%;
+      --yellow: 42 84% 61%;
+      --sky-blue: 231 98% 65%;
+      --green: 161 90% 43%;
+      --zinc: 240 5% 26%;
+      --deep-green: 181 84% 32%;
+      --deep-blue: 211 91% 39%;
+      --orange: 18 89% 40%;
+      --rose: 0 75% 42%;
+      --neutral: 0 0% 25%;
+      --slate: 215 25% 27%;
+      --gray: 217 19% 27%;
+    }
+
+    /* ==================== RESET & BASE ==================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-family);
+      background: hsl(var(--background-deep));
+      color: hsl(var(--foreground));
+      line-height: 1.5715;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ==================== LAYOUT ==================== */
+    .preview-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .preview-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+      margin-bottom: 8px;
+    }
+
+    .preview-header p {
+      font-size: 16px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .preview-header .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: hsl(var(--primary) / 10%);
+      color: hsl(var(--primary));
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title .number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .card {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+      margin-bottom: 16px;
+    }
+
+    /* ==================== COLOR SWATCHES ==================== */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .color-swatch {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid hsl(var(--border));
+    }
+
+    .color-swatch-block {
+      height: 64px;
+      display: flex;
+      align-items: flex-end;
+      padding: 8px 12px;
+    }
+
+    .color-swatch-info {
+      padding: 10px 12px;
+      background: hsl(var(--card));
+    }
+
+    .color-swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+    }
+
+    .color-swatch-value {
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+
+    /* ==================== THEME PRESETS ==================== */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .theme-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      transition: border-color 0.2s;
+    }
+
+    .theme-swatch:hover {
+      border-color: hsl(var(--primary));
+    }
+
+    .theme-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid hsl(var(--border));
+    }
+
+    .theme-swatch-name {
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      font-weight: 500;
+    }
+
+    /* ==================== TYPOGRAPHY ==================== */
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 12px 0;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .type-row:last-child { border-bottom: none; }
+
+    .type-label {
+      flex-shrink: 0;
+      width: 160px;
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      font-family: var(--font-mono);
+    }
+
+    .type-sample {
+      flex: 1;
+      color: hsl(var(--card-foreground));
+    }
+
+    /* ==================== BUTTONS ==================== */
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 4px 16px;
+      height: 32px;
+      font-size: 14px;
+      font-weight: 400;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+      font-family: var(--font-family);
+      line-height: 1.5715;
+    }
+
+    .btn-primary {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+    .btn-primary:hover { filter: brightness(1.1); }
+
+    .btn-default {
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      border-color: hsl(var(--border));
+    }
+    .btn-default:hover { color: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+
+    .btn-dashed {
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      border: 1px dashed hsl(var(--border));
+    }
+    .btn-dashed:hover { color: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+
+    .btn-text {
+      background: transparent;
+      color: hsl(var(--foreground));
+      border: none;
+    }
+    .btn-text:hover { background: hsl(var(--accent)); }
+
+    .btn-link {
+      background: transparent;
+      color: hsl(var(--primary));
+      border: none;
+      border-radius: 0;
+      padding: 4px 0;
+    }
+    .btn-link:hover { color: hsl(var(--primary) / 80%); }
+
+    .btn-destructive {
+      background: hsl(var(--destructive));
+      color: hsl(var(--destructive-foreground));
+    }
+    .btn-destructive:hover { filter: brightness(1.1); }
+
+    .btn-success {
+      background: hsl(var(--success));
+      color: hsl(var(--success-foreground));
+    }
+
+    .btn-warning {
+      background: hsl(var(--warning));
+      color: hsl(var(--warning-foreground));
+    }
+
+    .btn-disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .btn-sm { height: 24px; padding: 0 8px; font-size: 12px; }
+    .btn-lg { height: 40px; padding: 6px 24px; font-size: 16px; }
+
+    /* ==================== FORM ELEMENTS ==================== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: hsl(var(--card-foreground));
+    }
+
+    .form-input {
+      height: 32px;
+      padding: 4px 12px;
+      border: 1px solid hsl(var(--input));
+      border-radius: var(--radius);
+      background: hsl(var(--input-background));
+      color: hsl(var(--foreground));
+      font-size: 14px;
+      font-family: var(--font-family);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input::placeholder {
+      color: hsl(var(--input-placeholder));
+    }
+
+    .form-input:focus {
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 2px hsl(var(--primary) / 10%);
+    }
+
+    .form-input.error {
+      border-color: hsl(var(--destructive));
+    }
+
+    .form-input.error:focus {
+      box-shadow: 0 0 0 2px hsl(var(--destructive) / 6%);
+    }
+
+    .form-select {
+      height: 32px;
+      padding: 4px 12px;
+      border: 1px solid hsl(var(--input));
+      border-radius: var(--radius);
+      background: hsl(var(--input-background));
+      color: hsl(var(--foreground));
+      font-size: 14px;
+      font-family: var(--font-family);
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+    }
+
+    .form-select:focus {
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 2px hsl(var(--primary) / 10%);
+    }
+
+    .form-textarea {
+      padding: 8px 12px;
+      border: 1px solid hsl(var(--input));
+      border-radius: var(--radius);
+      background: hsl(var(--input-background));
+      color: hsl(var(--foreground));
+      font-size: 14px;
+      font-family: var(--font-family);
+      outline: none;
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-textarea:focus {
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 2px hsl(var(--primary) / 10%);
+    }
+
+    .form-switch {
+      position: relative;
+      width: 44px;
+      height: 22px;
+      background: hsl(var(--muted-foreground) / 30%);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .form-switch.active {
+      background: hsl(var(--primary));
+    }
+
+    .form-switch-handle {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .form-switch.active .form-switch-handle {
+      transform: translateX(22px);
+    }
+
+    /* ==================== TABLE ==================== */
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .table th {
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid hsl(var(--border));
+      font-size: 13px;
+    }
+
+    .table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .table tr:last-child td { border-bottom: none; }
+
+    .table tr:hover td {
+      background: hsl(var(--accent));
+    }
+
+    /* ==================== TAGS ==================== */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 400;
+      border: 1px solid;
+      line-height: 1.6;
+    }
+
+    .tag-default {
+      background: hsl(var(--muted));
+      color: hsl(var(--foreground));
+      border-color: hsl(var(--border));
+    }
+
+    .tag-primary {
+      background: hsl(var(--primary) / 10%);
+      color: hsl(var(--primary));
+      border-color: hsl(var(--primary) / 30%);
+    }
+
+    .tag-success {
+      background: hsl(var(--success) / 10%);
+      color: hsl(144 57% 40%);
+      border-color: hsl(var(--success) / 30%);
+    }
+
+    .tag-warning {
+      background: hsl(var(--warning) / 10%);
+      color: hsl(42 84% 40%);
+      border-color: hsl(var(--warning) / 30%);
+    }
+
+    .tag-destructive {
+      background: hsl(var(--destructive) / 10%);
+      color: hsl(var(--destructive));
+      border-color: hsl(var(--destructive) / 30%);
+    }
+
+    /* ==================== STAT CARDS ==================== */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+      line-height: 1.2;
+    }
+
+    .stat-suffix {
+      font-size: 14px;
+      margin-left: 4px;
+      font-weight: 400;
+    }
+
+    .stat-footer {
+      margin-top: 8px;
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .stat-up { color: hsl(var(--success)); }
+    .stat-down { color: hsl(var(--destructive)); }
+
+    /* ==================== BADGES ==================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge-primary { background: hsl(var(--primary) / 10%); color: hsl(var(--primary)); }
+    .badge-success { background: hsl(var(--success) / 10%); color: hsl(144 57% 40%); }
+    .badge-warning { background: hsl(var(--warning) / 10%); color: hsl(42 84% 40%); }
+    .badge-destructive { background: hsl(var(--destructive) / 10%); color: hsl(var(--destructive)); }
+
+    /* ==================== LAYOUT DEMO ==================== */
+    .layout-demo {
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      overflow: hidden;
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+    }
+
+    .layout-header {
+      height: 40px;
+      background: hsl(var(--header));
+      border-bottom: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .layout-header-logo {
+      font-weight: 600;
+      color: hsl(var(--primary));
+      font-size: 13px;
+    }
+
+    .layout-header-nav {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .layout-header-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: hsl(var(--muted));
+    }
+
+    .layout-breadcrumb {
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+      margin-left: 16px;
+    }
+
+    .layout-breadcrumb .bc-sep {
+      margin: 0 4px;
+      opacity: 0.5;
+    }
+
+    .layout-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .layout-sidebar {
+      width: 180px;
+      background: hsl(var(--sidebar));
+      border-right: 1px solid hsl(var(--border));
+      padding: 8px;
+      flex-shrink: 0;
+    }
+
+    .layout-menu-item {
+      padding: 6px 12px;
+      border-radius: calc(var(--radius) * 0.75);
+      color: hsl(var(--foreground));
+      margin-bottom: 2px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .layout-menu-item:hover {
+      background: hsl(var(--accent));
+    }
+
+    .layout-menu-item.active {
+      background: hsl(var(--primary) / 10%);
+      color: hsl(var(--primary));
+      font-weight: 500;
+    }
+
+    .layout-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .layout-tabbar {
+      height: 30px;
+      background: hsl(var(--card));
+      border-bottom: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .layout-tab {
+      padding: 4px 12px;
+      border-radius: 4px 4px 0 0;
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+    }
+
+    .layout-tab.active {
+      background: hsl(var(--card));
+      color: hsl(var(--primary));
+      border-color: hsl(var(--border));
+    }
+
+    .layout-main {
+      flex: 1;
+      background: hsl(var(--background-deep));
+      padding: 12px;
+    }
+
+    .layout-main-card {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 16px;
+      height: 100%;
+    }
+
+    .layout-main-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: hsl(var(--card-foreground));
+      margin-bottom: 8px;
+    }
+
+    .layout-placeholder {
+      height: 12px;
+      background: hsl(var(--muted));
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .layout-placeholder:nth-child(odd) { width: 80%; }
+    .layout-placeholder:nth-child(even) { width: 60%; }
+
+    /* ==================== SPACING DEMO ==================== */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .spacing-label {
+      width: 80px;
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+      font-family: var(--font-mono);
+      text-align: right;
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: hsl(var(--primary) / 15%);
+      border: 1px solid hsl(var(--primary) / 40%);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 11px;
+      color: hsl(var(--primary));
+      font-family: var(--font-mono);
+    }
+
+    /* ==================== ELEVATION DEMO ==================== */
+    .elevation-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .elevation-item {
+      padding: 24px 16px;
+      border-radius: var(--radius);
+      text-align: center;
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .elevation-0 {
+      background: hsl(var(--background-deep));
+      border: 1px dashed hsl(var(--border));
+    }
+    .elevation-1 {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+    }
+    .elevation-2 {
+      background: hsl(var(--popover));
+      box-shadow: 0 6px 16px 0 rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05);
+    }
+    .elevation-3 {
+      background: hsl(var(--card));
+      box-shadow: 0 6px 16px 0 rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05);
+      border: 1px solid hsl(var(--border));
+    }
+
+    /* ==================== BORDER RADIUS ==================== */
+    .radius-grid {
+      display: flex;
+      gap: 24px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radius-box {
+      width: 64px;
+      height: 64px;
+      background: hsl(var(--primary) / 15%);
+      border: 2px solid hsl(var(--primary));
+    }
+
+    .radius-label {
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+      font-family: var(--font-mono);
+    }
+
+    /* ==================== LOADING STATES ==================== */
+    .loading-demos {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .loading-demo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .loading-demo-label {
+      font-size: 12px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid hsl(var(--border));
+      border-top-color: hsl(var(--primary));
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .skeleton-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 320px;
+    }
+
+    .skeleton-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .skeleton-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 60%) 50%, hsl(var(--muted)) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-line {
+      height: 12px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 60%) 50%, hsl(var(--muted)) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-line-short { width: 60%; }
+    .skeleton-line-medium { width: 80%; }
+    .skeleton-line-full { width: 100%; }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .nprogress-demo {
+      height: 3px;
+      background: hsl(var(--muted));
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nprogress-bar {
+      height: 100%;
+      width: 40%;
+      background: hsl(var(--primary));
+      border-radius: 2px;
+      animation: nprogress 2s ease-in-out infinite;
+    }
+
+    @keyframes nprogress {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(150%); }
+      100% { transform: translateX(350%); }
+    }
+
+    /* ==================== THEME TOGGLE ==================== */
+    .theme-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* ==================== CRUD PAGE PATTERNS ==================== */
+    .crud-demo {
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 12px;
+      background: hsl(var(--card));
+    }
+
+    .crud-search {
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 12px;
+      align-items: end;
+    }
+
+    .crud-search-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .crud-search-field label {
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .crud-search-field input,
+    .crud-search-field select {
+      height: 26px;
+      padding: 2px 8px;
+      border: 1px solid hsl(var(--input));
+      border-radius: calc(var(--radius) * 0.75);
+      background: hsl(var(--input-background));
+      color: hsl(var(--foreground));
+      font-size: 11px;
+      font-family: var(--font-family);
+      outline: none;
+    }
+
+    .crud-separator {
+      height: 8px;
+      background: hsl(var(--background-deep));
+    }
+
+    .crud-toolbar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      gap: 8px;
+    }
+
+    .crud-toolbar-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: hsl(var(--card-foreground));
+    }
+
+    .crud-toolbar-spacer { flex: 1; }
+
+    .crud-toolbar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      height: 24px;
+      font-size: 11px;
+      border-radius: calc(var(--radius) * 0.75);
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-family);
+    }
+
+    .crud-toolbar-btn-primary {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .crud-toolbar-icon {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: calc(var(--radius) * 0.75);
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      color: hsl(var(--muted-foreground));
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .crud-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .crud-table th {
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      font-weight: 600;
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid hsl(var(--border));
+      font-size: 11px;
+    }
+
+    .crud-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .crud-table tr:last-child td { border-bottom: none; }
+
+    .crud-table .op-link {
+      color: hsl(var(--primary));
+      cursor: pointer;
+      text-decoration: none;
+      margin-right: 6px;
+      font-size: 11px;
+    }
+
+    .crud-table .op-link-danger {
+      color: hsl(var(--destructive));
+    }
+
+    .crud-table .op-link-disabled {
+      color: hsl(var(--muted-foreground));
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .crud-pager {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 8px 16px;
+      gap: 4px;
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .crud-pager-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      height: 24px;
+      padding: 0 4px;
+      border: 1px solid hsl(var(--border));
+      border-radius: calc(var(--radius) * 0.5);
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .crud-pager-btn.active {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
+    }
+
+    .crud-tree-indent {
+      padding-left: 20px;
+    }
+
+    .crud-tree-indent-2 {
+      padding-left: 40px;
+    }
+
+    .crud-tree-toggle {
+      display: inline-block;
+      width: 14px;
+      font-size: 10px;
+      color: hsl(var(--muted-foreground));
+      margin-right: 4px;
+      cursor: pointer;
+    }
+
+    .crud-drawer-overlay {
+      position: relative;
+      display: flex;
+      height: 200px;
+    }
+
+    .crud-drawer-main {
+      flex: 1;
+      background: hsl(var(--background-deep));
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--muted-foreground));
+      font-size: 12px;
+    }
+
+    .crud-drawer-panel {
+      width: 260px;
+      background: hsl(var(--card));
+      border-left: 1px solid hsl(var(--border));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .crud-drawer-header {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid hsl(var(--border));
+      font-weight: 600;
+      font-size: 13px;
+      color: hsl(var(--card-foreground));
+    }
+
+    .crud-drawer-header span { margin-left: auto; cursor: pointer; color: hsl(var(--muted-foreground)); }
+
+    .crud-drawer-body {
+      flex: 1;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .crud-drawer-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 10px 14px;
+      border-top: 1px solid hsl(var(--border));
+    }
+
+    .crud-modal-overlay {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      background: hsl(var(--background-deep));
+    }
+
+    .crud-modal-panel {
+      width: 300px;
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      box-shadow: 0 6px 16px 0 rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12);
+    }
+
+    .crud-modal-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid hsl(var(--border));
+      font-weight: 600;
+      font-size: 13px;
+      color: hsl(var(--card-foreground));
+    }
+
+    .crud-modal-header span { margin-left: auto; cursor: pointer; color: hsl(var(--muted-foreground)); }
+
+    .crud-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .crud-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 10px 16px;
+      border-top: 1px solid hsl(var(--border));
+    }
+
+    .crud-mini-switch {
+      position: relative;
+      display: inline-block;
+      width: 28px;
+      height: 14px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .crud-mini-switch.on { background: hsl(var(--primary)); }
+    .crud-mini-switch.off { background: hsl(var(--muted-foreground) / 30%); }
+
+    .crud-mini-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: white;
+      transition: left 0.15s;
+    }
+
+    .crud-mini-switch.on::after { left: 16px; }
+    .crud-mini-switch.off::after { left: 2px; }
+
+    .crud-patterns-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .crud-patterns-grid { grid-template-columns: 1fr; }
+      .crud-search { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 768px) {
+      .color-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .elevation-grid { grid-template-columns: repeat(2, 1fr); }
+      .theme-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav style="position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:10px 24px; background:hsla(0,0%,100%,0.88); backdrop-filter:blur(12px); border-bottom:1px solid hsl(var(--border));">
+    <a href="#" style="font-size:14px; font-weight:600; color:hsl(var(--primary)); text-decoration:none;">Vben Admin DESIGN</a>
+    <ul style="display:flex; gap:18px; list-style:none; margin:0; padding:0;">
+      <li><a href="#colors" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Colors</a></li>
+      <li><a href="#themes" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Themes</a></li>
+      <li><a href="#typography" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Typography</a></li>
+      <li><a href="#buttons" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Buttons</a></li>
+      <li><a href="#forms" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Forms</a></li>
+      <li><a href="#table" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Table</a></li>
+      <li><a href="#layout" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Layout</a></li>
+      <li><a href="#crud" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">CRUD</a></li>
+      <li><a href="#spacing" style="font-size:12px; color:hsl(var(--muted-foreground)); text-decoration:none;">Spacing</a></li>
+    </ul>
+    <a href="preview-dark.html" style="font-size:12px; padding:4px 12px; border-radius:var(--radius); background:hsl(var(--primary)); color:hsl(var(--primary-foreground)); text-decoration:none;">🌙 Dark</a>
+  </nav>
+
+  <div class="preview-container">
+
+    <!-- HEADER -->
+    <div class="preview-header">
+      <h1>Vue Vben Admin</h1>
+      <p>Design System Visual Catalog — Light Mode</p>
+      <span class="badge">v5.7.0 · Ant Design Vue · Multi-Theme</span>
+    </div>
+
+    <!-- 1. COLOR PALETTE -->
+    <div class="section" id="colors">
+      <h2 class="section-title"><span class="number">1</span> Color Palette</h2>
+      <div class="card">
+        <div class="card-title">Semantic Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(212 100% 45%);">
+              <span style="color: white; font-size: 11px;">Primary</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--primary</div>
+              <div class="color-swatch-value">212 100% 45%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(359.33 100% 65.1%);">
+              <span style="color: white; font-size: 11px;">Destructive</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--destructive</div>
+              <div class="color-swatch-value">359.33 100% 65.1%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(144 57% 58%);">
+              <span style="color: white; font-size: 11px;">Success</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--success</div>
+              <div class="color-swatch-value">144 57% 58%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(42 84% 61%);">
+              <span style="color: white; font-size: 11px;">Warning</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--warning</div>
+              <div class="color-swatch-value">42 84% 61%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Surface & Background Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(0 0% 100%); border-bottom: 1px solid hsl(240 5.9% 90%);">
+              <span style="color: #333; font-size: 11px;">Background</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--background</div>
+              <div class="color-swatch-value">0 0% 100%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(216 20.11% 95.47%);">
+              <span style="color: #333; font-size: 11px;">Background Deep</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--background-deep</div>
+              <div class="color-swatch-value">216 20.11% 95.47%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(0 0% 100%); border-bottom: 1px solid hsl(240 5.9% 90%);">
+              <span style="color: #333; font-size: 11px;">Card</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--card</div>
+              <div class="color-swatch-value">0 0% 100%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(240 4.8% 95.9%);">
+              <span style="color: #333; font-size: 11px;">Muted</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--muted</div>
+              <div class="color-swatch-value">240 4.8% 95.9%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(240 5% 96%);">
+              <span style="color: #333; font-size: 11px;">Accent</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--accent</div>
+              <div class="color-swatch-value">240 5% 96%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(240 5.9% 90%);">
+              <span style="color: #333; font-size: 11px;">Border</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--border</div>
+              <div class="color-swatch-value">240 5.9% 90%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Text Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(210 6% 21%);">
+              <span style="color: white; font-size: 11px;">Foreground</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--foreground</div>
+              <div class="color-swatch-value">210 6% 21%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(222.2 84% 4.9%);">
+              <span style="color: white; font-size: 11px;">Card Foreground</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--card-foreground</div>
+              <div class="color-swatch-value">222.2 84% 4.9%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(240 3.8% 46.1%);">
+              <span style="color: white; font-size: 11px;">Muted Foreground</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--muted-foreground</div>
+              <div class="color-swatch-value">240 3.8% 46.1%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(217 10.6% 65%);">
+              <span style="color: white; font-size: 11px;">Input Placeholder</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--input-placeholder</div>
+              <div class="color-swatch-value">217 10.6% 65%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Accent Variants & Utility Colors</div>
+        <div class="color-grid">
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(200 10% 90%);">
+              <span style="color: #333; font-size: 11px;">Accent Hover</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--accent-hover</div>
+              <div class="color-swatch-value">200 10% 90%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(216 14% 93%);">
+              <span style="color: #333; font-size: 11px;">Accent Dark</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--accent-dark</div>
+              <div class="color-swatch-value">216 14% 93%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(216 11% 91%);">
+              <span style="color: #333; font-size: 11px;">Accent Darker</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--accent-darker</div>
+              <div class="color-swatch-value">216 11% 91%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(192 9.43% 89.61%);">
+              <span style="color: #333; font-size: 11px;">Heavy</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--heavy</div>
+              <div class="color-swatch-value">192 9.43% 89.61%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(240 5% 96%);">
+              <span style="color: #333; font-size: 11px;">Info</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--info</div>
+              <div class="color-swatch-value">240 5% 96%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: hsl(220 4% 58%);">
+              <span style="color: white; font-size: 11px;">Info FG</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--info-foreground</div>
+              <div class="color-swatch-value">220 4% 58%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: rgba(0,0,0,0.45);">
+              <span style="color: white; font-size: 11px;">Overlay</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--overlay</div>
+              <div class="color-swatch-value">0 0% 0% / 45%</div>
+            </div>
+          </div>
+
+          <div class="color-swatch">
+            <div class="color-swatch-block" style="background: rgba(242,242,242,0.45);">
+              <span style="color: #333; font-size: 11px;">Overlay Content</span>
+            </div>
+            <div class="color-swatch-info">
+              <div class="color-swatch-name">--overlay-content</div>
+              <div class="color-swatch-value">0 0% 95% / 45%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. THEME PRESETS -->
+    <div class="section" id="themes">
+      <h2 class="section-title"><span class="number">2</span> Theme Presets</h2>
+      <div class="card">
+        <div class="card-title">14 Built-in Theme Colors</div>
+        <div class="theme-grid">
+          <div class="theme-swatch" style="border-color: hsl(212 100% 45%);">
+            <div class="theme-dot" style="background: hsl(212 100% 45%); border-color: hsl(212 100% 45%);"></div>
+            <span class="theme-swatch-name">Default</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(245 82% 67%); border-color: hsl(245 82% 67%);"></div>
+            <span class="theme-swatch-name">Violet</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(347 77% 60%); border-color: hsl(347 77% 60%);"></div>
+            <span class="theme-swatch-name">Pink</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(42 84% 61%); border-color: hsl(42 84% 61%);"></div>
+            <span class="theme-swatch-name">Yellow</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(231 98% 65%); border-color: hsl(231 98% 65%);"></div>
+            <span class="theme-swatch-name">Sky Blue</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(161 90% 43%); border-color: hsl(161 90% 43%);"></div>
+            <span class="theme-swatch-name">Green</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(240 5% 26%); border-color: hsl(240 5% 26%);"></div>
+            <span class="theme-swatch-name">Zinc</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(181 84% 32%); border-color: hsl(181 84% 32%);"></div>
+            <span class="theme-swatch-name">Deep Green</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(211 91% 39%); border-color: hsl(211 91% 39%);"></div>
+            <span class="theme-swatch-name">Deep Blue</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(18 89% 40%); border-color: hsl(18 89% 40%);"></div>
+            <span class="theme-swatch-name">Orange</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(0 75% 42%); border-color: hsl(0 75% 42%);"></div>
+            <span class="theme-swatch-name">Rose</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(0 0% 25%); border-color: hsl(0 0% 25%);"></div>
+            <span class="theme-swatch-name">Neutral</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(215 25% 27%); border-color: hsl(215 25% 27%);"></div>
+            <span class="theme-swatch-name">Slate</span>
+          </div>
+          <div class="theme-swatch">
+            <div class="theme-dot" style="background: hsl(217 19% 27%); border-color: hsl(217 19% 27%);"></div>
+            <span class="theme-swatch-name">Gray</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. TYPOGRAPHY -->
+    <div class="section" id="typography">
+      <h2 class="section-title"><span class="number">3</span> Typography Scale</h2>
+      <div class="card">
+        <div class="type-scale">
+          <div class="type-row">
+            <span class="type-label">h1 · 20px · 600</span>
+            <span class="type-sample" style="font-size: 20px; font-weight: 600;">Page Title — Dashboard Overview</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">h2 · 16px · 600</span>
+            <span class="type-sample" style="font-size: 16px; font-weight: 600;">Section Heading — Recent Activity</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">body · 14px · 400</span>
+            <span class="type-sample" style="font-size: 14px;">Default body text used in table cells, form labels, and descriptions.</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">menu · 14px · 400</span>
+            <span class="type-sample" style="font-size: 14px;">Sidebar navigation menu item text</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">caption · 12px · 400</span>
+            <span class="type-sample" style="font-size: 12px; color: hsl(var(--muted-foreground));">Caption text, timestamps, and helper descriptions</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">stat · 28px · 600</span>
+            <span class="type-sample" style="font-size: 28px; font-weight: 600;">12,438</span>
+          </div>
+          <div class="type-row">
+            <span class="type-label">code · 13px · mono</span>
+            <span class="type-sample" style="font-size: 13px; font-family: var(--font-mono); background: hsl(var(--muted)); padding: 2px 6px; border-radius: 4px;">const theme = 'default';</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. BUTTONS -->
+    <div class="section" id="buttons">
+      <h2 class="section-title"><span class="number">4</span> Buttons</h2>
+      <div class="card">
+        <div class="card-title">Variants</div>
+        <div class="button-row">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-default">Default</button>
+          <button class="btn btn-dashed">Dashed</button>
+          <button class="btn btn-text">Text</button>
+          <button class="btn btn-link">Link</button>
+          <button class="btn btn-destructive">Danger</button>
+        </div>
+
+        <div class="card-title" style="margin-top: 20px;">Semantic Colors</div>
+        <div class="button-row">
+          <button class="btn btn-primary">Primary Action</button>
+          <button class="btn btn-success">Success</button>
+          <button class="btn btn-warning">Warning</button>
+          <button class="btn btn-destructive">Destructive</button>
+        </div>
+
+        <div class="card-title" style="margin-top: 20px;">Sizes</div>
+        <div class="button-row">
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary">Default</button>
+          <button class="btn btn-primary btn-lg">Large</button>
+        </div>
+
+        <div class="card-title" style="margin-top: 20px;">States</div>
+        <div class="button-row">
+          <button class="btn btn-primary">Normal</button>
+          <button class="btn btn-primary" style="filter: brightness(1.1);">Hover</button>
+          <button class="btn btn-primary" style="filter: brightness(0.9);">Active</button>
+          <button class="btn btn-primary btn-disabled">Disabled</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. FORM ELEMENTS -->
+    <div class="section" id="forms">
+      <h2 class="section-title"><span class="number">5</span> Form Elements</h2>
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-item">
+            <label class="form-label">Username</label>
+            <input class="form-input" type="text" placeholder="Please enter username" />
+          </div>
+          <div class="form-item">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" placeholder="Please enter email" />
+          </div>
+          <div class="form-item">
+            <label class="form-label">Role</label>
+            <select class="form-select">
+              <option>Please select role</option>
+              <option>Administrator</option>
+              <option>Editor</option>
+              <option>Viewer</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label class="form-label">Password (Error)</label>
+            <input class="form-input error" type="password" value="12345" />
+          </div>
+          <div class="form-item" style="grid-column: span 2;">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" placeholder="Please enter description"></textarea>
+          </div>
+          <div class="form-item">
+            <label class="form-label">Enable Feature</label>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <div class="form-switch">
+                <div class="form-switch-handle"></div>
+              </div>
+              <span style="font-size: 12px; color: hsl(var(--muted-foreground));">Off</span>
+              <div class="form-switch active">
+                <div class="form-switch-handle"></div>
+              </div>
+              <span style="font-size: 12px; color: hsl(var(--muted-foreground));">On</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. TABLE -->
+    <div class="section" id="table">
+      <h2 class="section-title"><span class="number">6</span> Data Table</h2>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>John Smith</td>
+                <td>john@example.com</td>
+                <td><span class="tag tag-primary">Admin</span></td>
+                <td><span class="badge badge-success">● Active</span></td>
+                <td style="color: hsl(var(--muted-foreground));">2024-01-15</td>
+                <td>
+                  <button class="btn btn-link" style="height: auto; padding: 0; margin-right: 8px;">Edit</button>
+                  <button class="btn btn-link" style="height: auto; padding: 0; color: hsl(var(--destructive));">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Jane Doe</td>
+                <td>jane@example.com</td>
+                <td><span class="tag tag-default">Editor</span></td>
+                <td><span class="badge badge-success">● Active</span></td>
+                <td style="color: hsl(var(--muted-foreground));">2024-02-20</td>
+                <td>
+                  <button class="btn btn-link" style="height: auto; padding: 0; margin-right: 8px;">Edit</button>
+                  <button class="btn btn-link" style="height: auto; padding: 0; color: hsl(var(--destructive));">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Bob Wilson</td>
+                <td>bob@example.com</td>
+                <td><span class="tag tag-default">Viewer</span></td>
+                <td><span class="badge badge-warning">● Inactive</span></td>
+                <td style="color: hsl(var(--muted-foreground));">2024-03-10</td>
+                <td>
+                  <button class="btn btn-link" style="height: auto; padding: 0; margin-right: 8px;">Edit</button>
+                  <button class="btn btn-link" style="height: auto; padding: 0; color: hsl(var(--destructive));">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Alice Chen</td>
+                <td>alice@example.com</td>
+                <td><span class="tag tag-primary">Admin</span></td>
+                <td><span class="badge badge-destructive">● Disabled</span></td>
+                <td style="color: hsl(var(--muted-foreground));">2024-04-05</td>
+                <td>
+                  <button class="btn btn-link" style="height: auto; padding: 0; margin-right: 8px;">Edit</button>
+                  <button class="btn btn-link" style="height: auto; padding: 0; color: hsl(var(--destructive));">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. TAGS & BADGES -->
+    <div class="section">
+      <h2 class="section-title"><span class="number">7</span> Tags & Badges</h2>
+      <div class="card">
+        <div class="card-title">Tags</div>
+        <div class="tag-row" style="margin-bottom: 20px;">
+          <span class="tag tag-default">Default</span>
+          <span class="tag tag-primary">Primary</span>
+          <span class="tag tag-success">Success</span>
+          <span class="tag tag-warning">Warning</span>
+          <span class="tag tag-destructive">Error</span>
+        </div>
+
+        <div class="card-title">Badges</div>
+        <div class="tag-row">
+          <span class="badge badge-primary">Processing</span>
+          <span class="badge badge-success">Completed</span>
+          <span class="badge badge-warning">Pending</span>
+          <span class="badge badge-destructive">Failed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. STAT CARDS -->
+    <div class="section">
+      <h2 class="section-title"><span class="number">8</span> Dashboard Stats</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Users</div>
+          <div class="stat-value">12,438</div>
+          <div class="stat-footer"><span class="stat-up">↑ 12.5%</span> vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Sessions</div>
+          <div class="stat-value">3,842</div>
+          <div class="stat-footer"><span class="stat-up">↑ 8.2%</span> vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue</div>
+          <div class="stat-value">¥89.4<span class="stat-suffix">K</span></div>
+          <div class="stat-footer"><span class="stat-down">↓ 3.1%</span> vs last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Conversion</div>
+          <div class="stat-value">5.27<span class="stat-suffix">%</span></div>
+          <div class="stat-footer"><span class="stat-up">↑ 0.4%</span> vs last month</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. LAYOUT -->
+    <div class="section" id="layout">
+      <h2 class="section-title"><span class="number">9</span> Layout Structure</h2>
+      <div class="card">
+        <div class="card-title">Sidebar Navigation Layout (Default)</div>
+        <div class="layout-demo">
+          <div class="layout-header">
+            <div class="layout-header-logo">Vben Admin</div>
+            <div class="layout-breadcrumb">Home <span class="bc-sep">/</span> Dashboard</div>
+            <div style="flex: 1;"></div>
+            <div class="layout-header-nav">
+              <div class="layout-header-dot"></div>
+              <div class="layout-header-dot"></div>
+              <div class="layout-header-dot" style="background: hsl(var(--primary) / 20%);"></div>
+            </div>
+          </div>
+          <div class="layout-body">
+            <div class="layout-sidebar">
+              <div class="layout-menu-item active">⊞ Dashboard</div>
+              <div class="layout-menu-item">⊟ Users</div>
+              <div class="layout-menu-item">⊞ Settings</div>
+              <div class="layout-menu-item">⊞ Analytics</div>
+              <div class="layout-menu-item">⊞ Reports</div>
+            </div>
+            <div class="layout-content">
+              <div class="layout-tabbar">
+                <div class="layout-tab active">Dashboard</div>
+                <div class="layout-tab">Users</div>
+                <div class="layout-tab">Settings</div>
+              </div>
+              <div class="layout-main">
+                <div class="layout-main-card">
+                  <div class="layout-main-card-title">Content Area</div>
+                  <div class="layout-placeholder"></div>
+                  <div class="layout-placeholder"></div>
+                  <div class="layout-placeholder"></div>
+                  <div class="layout-placeholder"></div>
+                  <div class="layout-placeholder"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. CRUD PAGE PATTERNS -->
+    <div class="section" id="crud">
+      <h2 class="section-title"><span class="number">10</span> CRUD Page Patterns</h2>
+      <div class="crud-patterns-grid">
+
+        <!-- Pattern A: SearchForm + Table + Drawer -->
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title">Pattern A — SearchForm + Table + Drawer</div>
+          <div style="font-size: 12px; color: hsl(var(--muted-foreground)); margin-bottom: 12px;">Flat/paged data with collapsible search. Edit via side Drawer. <em>e.g. Role Management, User Management</em></div>
+          <div class="crud-demo">
+            <div class="crud-search">
+              <div class="crud-search-field">
+                <label>Role Name</label>
+                <input type="text" placeholder="Enter name" />
+              </div>
+              <div class="crud-search-field">
+                <label>Status</label>
+                <select><option>All</option></select>
+              </div>
+              <div class="crud-search-field" style="flex-direction: row; align-items: flex-end; gap: 6px;">
+                <button class="crud-toolbar-btn crud-toolbar-btn-primary" style="flex: 0;">Search</button>
+                <button class="crud-toolbar-btn" style="flex: 0; background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); border: 1px solid hsl(var(--border));">Reset</button>
+              </div>
+            </div>
+            <div class="crud-separator"></div>
+            <div class="crud-toolbar">
+              <span class="crud-toolbar-title">Role List</span>
+              <span class="crud-toolbar-spacer"></span>
+              <button class="crud-toolbar-btn crud-toolbar-btn-primary">＋ Create</button>
+              <span class="crud-toolbar-icon" title="Search">🔍</span>
+              <span class="crud-toolbar-icon" title="Refresh">↻</span>
+              <span class="crud-toolbar-icon" title="Fullscreen">⛶</span>
+            </div>
+            <table class="crud-table">
+              <thead><tr><th>Name</th><th style="width:60px">Status</th><th>Created</th><th style="width:80px;text-align:center">Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Super Admin</td>
+                  <td><span class="crud-mini-switch on"></span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-01-15</td>
+                  <td style="text-align:center;"><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+                <tr>
+                  <td>Editor</td>
+                  <td><span class="crud-mini-switch on"></span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-02-20</td>
+                  <td style="text-align:center;"><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+                <tr>
+                  <td>Viewer</td>
+                  <td><span class="crud-mini-switch off"></span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-03-10</td>
+                  <td style="text-align:center;"><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="crud-pager">
+              <span>Total 50</span>
+              <span class="crud-pager-btn">&lt;</span>
+              <span class="crud-pager-btn active">1</span>
+              <span class="crud-pager-btn">2</span>
+              <span class="crud-pager-btn">3</span>
+              <span class="crud-pager-btn">&gt;</span>
+            </div>
+          </div>
+          <!-- Drawer preview -->
+          <div style="margin-top: 12px;">
+            <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 6px;">↳ Edit Drawer (slides from right)</div>
+            <div class="crud-demo">
+              <div class="crud-drawer-overlay">
+                <div class="crud-drawer-main">← Page content (dimmed)</div>
+                <div class="crud-drawer-panel">
+                  <div class="crud-drawer-header">Edit Role <span>✕</span></div>
+                  <div class="crud-drawer-body">
+                    <div class="crud-search-field"><label>Role Name</label><input type="text" value="Editor" /></div>
+                    <div class="crud-search-field"><label>Status</label>
+                      <div style="display:flex; gap:4px;">
+                        <span style="padding:2px 8px; border-radius:4px; background:hsl(var(--primary)); color:white; font-size:10px;">Enabled</span>
+                        <span style="padding:2px 8px; border-radius:4px; border:1px solid hsl(var(--border)); font-size:10px;">Disabled</span>
+                      </div>
+                    </div>
+                    <div class="crud-search-field"><label>Permissions</label>
+                      <div style="border:1px solid hsl(var(--border)); border-radius:calc(var(--radius)*0.75); padding:6px 8px; font-size:10px; color:hsl(var(--foreground));">
+                        ☑ System &gt; ☑ Users &gt; ☐ Roles
+                      </div>
+                    </div>
+                  </div>
+                  <div class="crud-drawer-footer">
+                    <button class="crud-toolbar-btn" style="background:hsl(var(--secondary)); border:1px solid hsl(var(--border)); color:hsl(var(--secondary-foreground));">Cancel</button>
+                    <button class="crud-toolbar-btn crud-toolbar-btn-primary">Confirm</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pattern B: TreeTable + Modal -->
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title">Pattern B — TreeTable + Modal</div>
+          <div style="font-size: 12px; color: hsl(var(--muted-foreground)); margin-bottom: 12px;">Hierarchical tree data, no pagination, no search. Edit via centered Modal. <em>e.g. Dept Management, Menu Management</em></div>
+          <div class="crud-demo">
+            <div class="crud-toolbar">
+              <span class="crud-toolbar-title">Dept List</span>
+              <span class="crud-toolbar-spacer"></span>
+              <button class="crud-toolbar-btn crud-toolbar-btn-primary">＋ Create</button>
+              <span class="crud-toolbar-icon" title="Refresh">↻</span>
+              <span class="crud-toolbar-icon" title="Fullscreen">⛶</span>
+            </div>
+            <table class="crud-table">
+              <thead><tr><th>Dept Name</th><th style="width:60px">Status</th><th>Created</th><th style="width:120px;text-align:center">Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="crud-tree-toggle">▼</span> Headquarters</td>
+                  <td><span class="tag tag-success" style="font-size:10px; padding:0 5px;">Enabled</span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-01-01</td>
+                  <td style="text-align:center;"><a class="op-link">Append</a><a class="op-link">Edit</a><a class="op-link op-link-disabled">Delete</a></td>
+                </tr>
+                <tr>
+                  <td class="crud-tree-indent"><span class="crud-tree-toggle">▼</span> Engineering</td>
+                  <td><span class="tag tag-success" style="font-size:10px; padding:0 5px;">Enabled</span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-01-15</td>
+                  <td style="text-align:center;"><a class="op-link">Append</a><a class="op-link">Edit</a><a class="op-link op-link-disabled">Delete</a></td>
+                </tr>
+                <tr>
+                  <td class="crud-tree-indent-2">Frontend</td>
+                  <td><span class="tag tag-success" style="font-size:10px; padding:0 5px;">Enabled</span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-02-01</td>
+                  <td style="text-align:center;"><a class="op-link">Append</a><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+                <tr>
+                  <td class="crud-tree-indent-2">Backend</td>
+                  <td><span class="tag tag-warning" style="font-size:10px; padding:0 5px;">Disabled</span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-02-05</td>
+                  <td style="text-align:center;"><a class="op-link">Append</a><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+                <tr>
+                  <td class="crud-tree-indent">Marketing</td>
+                  <td><span class="tag tag-success" style="font-size:10px; padding:0 5px;">Enabled</span></td>
+                  <td style="color: hsl(var(--muted-foreground));">2025-01-20</td>
+                  <td style="text-align:center;"><a class="op-link">Append</a><a class="op-link">Edit</a><a class="op-link op-link-danger">Delete</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Modal preview -->
+          <div style="margin-top: 12px;">
+            <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 6px;">↳ Edit Modal (centered overlay)</div>
+            <div class="crud-demo">
+              <div class="crud-modal-overlay">
+                <div class="crud-modal-panel">
+                  <div class="crud-modal-header">Edit Dept <span>✕</span></div>
+                  <div class="crud-modal-body">
+                    <div class="crud-search-field"><label>Dept Name</label><input type="text" value="Frontend" /></div>
+                    <div class="crud-search-field"><label>Parent Dept</label><select><option>Engineering</option></select></div>
+                    <div class="crud-search-field"><label>Status</label>
+                      <div style="display:flex; gap:4px;">
+                        <span style="padding:2px 8px; border-radius:4px; background:hsl(var(--primary)); color:white; font-size:10px;">Enabled</span>
+                        <span style="padding:2px 8px; border-radius:4px; border:1px solid hsl(var(--border)); font-size:10px;">Disabled</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="crud-modal-footer">
+                    <button class="crud-toolbar-btn" style="background:hsl(var(--destructive)); color:white;">Reset</button>
+                    <span style="flex:1;"></span>
+                    <button class="crud-toolbar-btn" style="background:hsl(var(--secondary)); border:1px solid hsl(var(--border)); color:hsl(var(--secondary-foreground));">Cancel</button>
+                    <button class="crud-toolbar-btn crud-toolbar-btn-primary">Confirm</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 11. SPACING -->
+    <div class="section" id="spacing">
+      <h2 class="section-title"><span class="number">11</span> Spacing Scale</h2>
+      <div class="card">
+        <div class="spacing-row">
+          <span class="spacing-label">xs · 4px</span>
+          <div class="spacing-bar" style="width: 4px; min-width: 4px;"></div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">sm · 8px</span>
+          <div class="spacing-bar" style="width: 32px;">8</div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">md · 16px</span>
+          <div class="spacing-bar" style="width: 64px;">16</div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">lg · 24px</span>
+          <div class="spacing-bar" style="width: 96px;">24</div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">xl · 32px</span>
+          <div class="spacing-bar" style="width: 128px;">32</div>
+        </div>
+        <div class="spacing-row">
+          <span class="spacing-label">2xl · 48px</span>
+          <div class="spacing-bar" style="width: 192px;">48</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. ELEVATION -->
+    <div class="section">
+      <h2 class="section-title"><span class="number">12</span> Depth & Elevation</h2>
+      <div class="card">
+        <div class="elevation-grid">
+          <div class="elevation-item elevation-0">
+            <div style="font-weight: 600; margin-bottom: 4px;">Level 0</div>
+            Content Area<br>No shadow
+          </div>
+          <div class="elevation-item elevation-1">
+            <div style="font-weight: 600; margin-bottom: 4px;">Level 1</div>
+            Cards, Panels<br>Border only
+          </div>
+          <div class="elevation-item elevation-2">
+            <div style="font-weight: 600; margin-bottom: 4px;">Level 2</div>
+            Dropdowns<br>System shadow
+          </div>
+          <div class="elevation-item elevation-3">
+            <div style="font-weight: 600; margin-bottom: 4px;">Level 3</div>
+            Modals<br>Shadow + Border
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13. BORDER RADIUS -->
+    <div class="section">
+      <h2 class="section-title"><span class="number">13</span> Border Radius</h2>
+      <div class="card">
+        <div class="radius-grid">
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 0;"></div>
+            <span class="radius-label">0</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 0.25rem;"></div>
+            <span class="radius-label">0.25rem</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 0.5rem; outline: 2px solid hsl(var(--primary)); outline-offset: 2px;"></div>
+            <span class="radius-label" style="color: hsl(var(--primary)); font-weight: 600;">0.5rem ✓</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 0.75rem;"></div>
+            <span class="radius-label">0.75rem</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 1rem;"></div>
+            <span class="radius-label">1rem</span>
+          </div>
+          <div class="radius-item">
+            <div class="radius-box" style="border-radius: 50%;"></div>
+            <span class="radius-label">50%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. LOADING STATES -->
+    <div class="section">
+      <h2 class="section-title"><span class="number">14</span> Loading States</h2>
+      <div class="card">
+        <div class="card-title">NProgress Route Loading Bar</div>
+        <div class="nprogress-demo" style="margin-bottom: 16px;">
+          <div class="nprogress-bar"></div>
+        </div>
+        <div class="card-title">Spinner &amp; Skeleton</div>
+        <div class="loading-demos">
+          <div class="loading-demo-item">
+            <div class="spinner"></div>
+            <span class="loading-demo-label">Spinner</span>
+          </div>
+          <div class="loading-demo-item">
+            <div class="skeleton-group">
+              <div class="skeleton-header">
+                <div class="skeleton-avatar"></div>
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+                  <div class="skeleton-line skeleton-line-medium"></div>
+                  <div class="skeleton-line skeleton-line-short"></div>
+                </div>
+              </div>
+              <div class="skeleton-line skeleton-line-full"></div>
+              <div class="skeleton-line skeleton-line-medium"></div>
+              <div class="skeleton-line skeleton-line-short"></div>
+            </div>
+            <span class="loading-demo-label">Skeleton Loading</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Theme Toggle -->
+  <a href="preview-dark.html" class="theme-toggle" title="Switch to Dark Mode">🌙</a>
+</body>
+</html>
